@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="foo" type="int"/>
+    </data>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".activities.ScrollingActivity"
+        tools:showIn="@layout/activity_scrolling">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGrayBG"
+            android:orientation="vertical"
+            android:padding="@dimen/big_margin">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/info_weather_ico"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/info_weather_ico_size"
+                        android:layout_marginBottom="-15dp"
+                        android:layout_weight="7"
+                        tools:src="@drawable/day_rainy" />
+
+                    <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                        android:id="@+id/info_temperature_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/size_16dp"
+                        android:layout_marginTop="-15dp"
+                        android:layout_weight="3"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/info_temp_font"
+                        foo:customFont="roboto.ttf"
+                        tools:text="+21o" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/info_description_shape"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:background="@color/colorWhite"
+                        android:elevation="@dimen/size_16dp"
+                        android:padding="@dimen/lil_margin">
+
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:id="@+id/info_description_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="@dimen/last_addition_font_size"
+                            android:textStyle="bold"
+                            foo:customFont="roboto.ttf"
+                            tools:text="Drizzle" />
+                    </LinearLayout>
+
+                    <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                        android:id="@+id/info_min_max"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/mid_margin"
+                        android:layout_weight="3"
+                        android:text="+1 +3"
+
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/info_max_min_font_size"
+                        foo:customFont="roboto.ttf" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lil_margin"
+                android:src="@drawable/blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/size_16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/std_margin"
+                    android:orientation="horizontal">
+
+                    <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                        android:id="@+id/info_pressure_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/mid_margin"
+                        android:layout_weight="1"
+                        android:text="@string/info_pressure"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/last_addition_font_size"
+                        android:textStyle="bold"
+                        foo:customFont="roboto-bold.ttf" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:id="@+id/info_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf"
+                            tools:text="1000" />
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pressure_dim"
+
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/std_margin"
+
+                    android:orientation="horizontal">
+
+                    <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                        android:id="@+id/info_wind_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/mid_margin"
+                        android:layout_weight="1"
+                        android:text="@string/info_wind"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/last_addition_font_size"
+                        android:textStyle="bold"
+                        foo:customFont="roboto-bold.ttf" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:id="@+id/info_wind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf"
+                            tools:text="70" />
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wind_dim"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/std_margin"
+                    android:orientation="horizontal">
+
+                    <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                        android:id="@+id/info_humidity_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/mid_margin"
+                        android:layout_marginBottom="@dimen/std_margin"
+                        android:layout_weight="1"
+                        android:text="@string/info_humidity"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/last_addition_font_size"
+                        android:textStyle="bold"
+                        foo:customFont="roboto-bold.ttf" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:id="@+id/info_humidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf"
+                            tools:text="7ms" />
+
+                        <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/humidity_dim"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/last_addition_font_size"
+                            foo:customFont="roboto.ttf" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/std_margin">
+
+
+                <com.weatharium.v4n0v.weathariummvvm.components.TextViewPlus
+                    android:id="@+id/tv_last_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/lil_margin"
+                    foo:customFont="roboto.ttf"
+                    tools:text="last upd" />
+
+                <ImageView
+                    android:id="@+id/last_clock_ico"
+                    android:layout_width="@dimen/size_16dp"
+                    android:layout_height="@dimen/size_16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/tv_last_update"
+                    android:src="@drawable/ic_query_builder_black" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="progress_splash">25dp</dimen>
+    <dimen name="size_16dp">16dp</dimen>
+    <dimen name="size_8dp">8dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="big_margin">30dp</dimen>
+    <dimen name="info_weather_ico_size">120dp</dimen>
+    <dimen name="lil_margin">5dp</dimen>
+    <dimen name="std_margin">10dp</dimen>
+    <dimen name="last_image_icon_size">55dp</dimen>
+    <dimen name="mid_margin">15dp</dimen>
+    <dimen name="last_addition_font_size">18sp</dimen>
+    <dimen name="info_max_min_font_size">24sp</dimen>
+    <dimen name="info_temp_font">90sp</dimen>
+</resources>

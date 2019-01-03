@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">Wetharium</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_update">Update</string>
+    <string name="loading">loading...</string>
+
+
+    <string name="select_city">Select name</string>
+
+    <string name="pressure_dim">mm Hg</string>
+    <string name="wind_dim">m/s</string>
+    <string name="humidity_dim">%</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="temp">temperature</string>
+    <string name="cels">\u00B0</string>
+    <string name="speed">Wind</string>
+    <string name="apply">Apply</string>
+    <string name="show_weather">Load weather</string>
+    <string name="clear_base">Clear base</string>
+    <string name="updated">Last update: </string>
+    <string name="reload_picture">Reload picture</string>
+    <string name="welcome_to">welcome to</string>
+    <string name="info_wind">Wind:</string>
+    <string name="info_pressure">Pressure:</string>
+    <string name="info_humidity">Humidity:</string>
+    <string-array name="addition_list">
+        <item>Pressure</item>
+        <item>Wind</item>
+        <item>Humidity</item>
+    </string-array>
+
+    <string-array name="description_wether">
+        <item>0</item>
+        <item>1</item>
+        <item>Thunder</item>
+        <item>Drizzle</item>
+        <item>4</item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Mist</item>
+        <item>Clouds</item>
+    </string-array>
+    <string name="photo_upd">New photo loading</string>
+    <string name="city_default">Moscow</string>
+    <string name="clear">Clear</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Select name</string>
+    <string name="ok">@android:string/ok</string>
+    <string name="update_weather">Update coord</string>
+    <string name="email_auth_transition">trans</string>
+    <string name="weather">Weather</string>
+    <string name="history">History</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="clear_history">Clear history</string>
+
+
+</resources>

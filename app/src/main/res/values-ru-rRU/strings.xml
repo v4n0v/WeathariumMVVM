@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wetharium</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_update">Обновить</string>
+    <string name="loading">загрузка...</string>
+
+
+    <string name="select_city">Выбирите город</string>
+
+    <string name="pressure_dim">мм\\рт.ст.</string>
+    <string name="wind_dim">м\\с</string>
+    <string name="humidity_dim">%</string>
+    <string name="pressure">Давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="temp">температура</string>
+    <string name="cels">\u00B0</string>
+    <string name="speed">Ветер</string>
+    <string name="apply">Готово</string>
+    <string name="show_weather">Узнать погоду</string>
+    <string name="clear_base">Очистить</string>
+    <string name="updated">Обновлен: </string>
+    <string name="reload_picture">Обновить картику</string>
+    <string name="welcome_to">вас приветствует</string>
+    <string name="info_wind">Ветер:</string>
+    <string name="info_pressure">Давление:</string>
+    <string name="info_humidity">Влажность:</string>
+    <string-array name="addition_list">
+        <item>Давление</item>
+        <item>Ветер</item>
+        <item>Влажность</item>
+    </string-array>
+
+    <string-array name="description_wether">
+        <item>0</item>
+        <item>1</item>
+        <item>Ураган</item>
+        <item>Слякоть</item>
+        <item>4</item>
+        <item>Дождь</item>
+        <item>Снег</item>
+        <item>Туман</item>
+        <item>Облачно</item>
+    </string-array>
+
+    <string name="photo_upd">Загрузка фото</string>
+    <string name="city_default">Москва</string>
+    <string name="clear">Ясно</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Выбирите город</string>
+    <string name="ok">Ok</string>
+    <string name="update_weather">Update coord</string>
+    <string name="email_auth_transition">trans</string>
+    <string name="weather">Погода</string>
+    <string name="history">История</string>
+    <string name="communicate">Связь</string>
+    <string name="share">Поделиться</string>
+    <string name="clear_history">Очистить историю</string>
+</resources>
