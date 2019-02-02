@@ -8,8 +8,12 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.BoringLayout
 import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.weatharium.v4n0v.weathariummvvm.R
+import java.util.HashMap
 
 enum class Transitions { NO_TRANSITION, SLIDE_UP, FADE }
 
@@ -81,8 +85,37 @@ abstract class BaseActivity : AppCompatActivity() {
                 .show()
     }
 
+    interface OnEditTextListener {
+        fun click(editText: EditText)
+    }
 
-    fun showCacelableInformDialog(title: String, message: String, onClickListener: DialogInterface.OnClickListener) {
+    fun showCancelableEditTextDialog(title: String, message: String, onClickListener: OnEditTextListener) {
+        val editText = EditText(this)
+        editText.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        editText.hint = getString(R.string.city_default)
+        val ll = LinearLayout(this)
+        ll.addView(editText)
+        val bilder = AlertDialog.Builder(this)
+                .setView(ll)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(getString(R.string.ok)) { _, _ -> }
+                .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+
+        val dialog = bilder.create()
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            onClickListener.click(editText)
+            dialog.dismiss()
+        }
+    }
+
+
+    fun showCancelableInformDialog(title: String, message: String, onClickListener: DialogInterface.OnClickListener) {
+
         AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
@@ -92,7 +125,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 .show()
     }
 
-    abstract fun switchFragment(state: State)
+    /// abstract fun switchFragment(state: State)
 
 
 //    fun beginTransaction(fragment: Fragment, idContainer: Int) {

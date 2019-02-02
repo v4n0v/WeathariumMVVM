@@ -6,7 +6,6 @@ import dagger.Provides
 
 @Module
 class AppModule(private val app: App) {
-
     @Provides
     internal fun app(): App {
         return app

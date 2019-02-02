@@ -38,9 +38,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
             android:text="@string/welcome_to"
             android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/tv_app_name"
+            app:layout_constraintBottom_toTopOf="@+id/progress_circular"
             app:layout_constraintStart_toStartOf="@+id/tv_app_name" />
 
         <ProgressBar

@@ -2,39 +2,60 @@ package com.weatharium.v4n0v.weathariummvvm.activities
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.*
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
+import android.os.IBinder
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import com.weatharium.v4n0v.weathariummvvm.App
 import com.weatharium.v4n0v.weathariummvvm.R
+import com.weatharium.v4n0v.weathariummvvm.components.*
 import com.weatharium.v4n0v.weathariummvvm.components.Animator.Companion.zoomInAnimation
-import com.weatharium.v4n0v.weathariummvvm.components.dateFormat
-import com.weatharium.v4n0v.weathariummvvm.components.getTemperatureBetween
-import com.weatharium.v4n0v.weathariummvvm.components.temperatureFormat
 import com.weatharium.v4n0v.weathariummvvm.databinding.ActivityMainBinding
+import com.weatharium.v4n0v.weathariummvvm.services.WeatherService
 import com.weatharium.v4n0v.weathariummvvm.viewModels.MainViewModel
+import timber.log.Timber
 import java.util.*
 
 
-enum class State { SPLASH, WEATHER, HISTORY }
+enum class ClickEvent { FAB, HISTORY, UPDATE }
+
 class ScrollingActivity : BaseActivity() {
+    internal var bind: Boolean = false
 
-    override fun switchFragment(state: State) {
-
-    }
-
+    private lateinit var sConn: ServiceConnection
+    private lateinit var service: IBinder
     lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        sConn = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                //    Toast.makeText(getBaseContext(), "Splash service connected", Toast.LENGTH_SHORT).show();
+//                Timber.d("Service connected")
+                this@ScrollingActivity.service = service
+                bind = true
+            }
+
+            override fun onServiceDisconnected(name: ComponentName) {
+                bind = false
+            }
+        }
+
+        val intent = Intent(baseContext, WeatherService::class.java)
+        bindService(intent, sConn, Context.BIND_AUTO_CREATE)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setSupportActionBar(binding.toolbar)
         binding.viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         App.instance.getAppComponent().inject(binding.viewModel!!)
-
-        setSupportActionBar(binding.toolbar)
 
         binding.toolbarLayout.title = "Weatharium"
         binding.toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.transparent))
@@ -47,6 +68,7 @@ class ScrollingActivity : BaseActivity() {
 
         binding.viewModel?.weatherInfoData?.observe(this,
                 Observer { weatherInfo ->
+                    toast("Weather updated")
                     binding.content.infoTemperatureTv.text = temperatureFormat(weatherInfo?.main?.temp)
                     binding.content.infoTemperatureTv.startAnimation(zoomInAnimation(offset = 200))
 
@@ -62,13 +84,34 @@ class ScrollingActivity : BaseActivity() {
                     binding.content.tvLastUpdate.text = dateFormat().format(Date())
                 })
 
+        val onClick = object : OnEditTextListener {
+            override fun click(editText: EditText) {
+                val city = editText.text.toString()
+
+                binding.viewModel?.changeCity(city)
+            }
+        }
+
+        binding.viewModel?.cityNameData?.observe(this, Observer { city ->
+            city?.let {
+                binding.tvCityName.text = formatTitle(it)
+            }
+        })
+
         binding.viewModel?.clickListener?.observe(this,
                 Observer { event ->
                     event?.getContentIfNotHandled()?.let { actionId ->
                         when (actionId) {
-                            "FAB" -> toast(actionId)
-                            "history" -> toast(actionId)
-                            "Upd" -> toast(actionId)
+                            ClickEvent.FAB -> showCancelableEditTextDialog(getString(R.string.select_city), getString(R.string.type_city), onClick)
+                            ClickEvent.HISTORY -> {
+                                Timber.d("HistoryActivity selected")
+                                val intentHistory = Intent(this, HistoryActivity::class.java)
+                                intentHistory.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intentHistory)
+                                finish()
+                            }
+                            else -> {
+                            }
                         }
                     }
                 })
@@ -78,11 +121,15 @@ class ScrollingActivity : BaseActivity() {
                     binding.header.setImageBitmap(bmp)
 
                 })
-//
-//
+
         binding.executePendingBindings()
         binding.fab.startAnimation(zoomInAnimation(offset = 200))
         binding.viewModel?.loadPhoto()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(sConn)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,34 +139,11 @@ class ScrollingActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_history -> binding.viewModel?.addClickEvent("history")
-            R.id.action_update -> binding.viewModel?.addClickEvent("Upd")
+            R.id.action_history -> binding.viewModel?.addClickEvent(ClickEvent.HISTORY)
+            R.id.action_update -> binding.viewModel?.addClickEvent(ClickEvent.UPDATE)
             else -> return false
         }
         return true
-    }
-
-
-    private fun getWeatherIcon(id: Int?): Int {
-
-        var newId = id
-        if (newId == null || newId == 800)
-            return R.drawable.day_synny
-        else {
-            newId = id!! / 100
-
-            return when (newId) {
-                2 -> R.drawable.day_thunder
-                3 -> R.drawable.day_drizzle
-                5 -> R.drawable.day_rainy
-                6 -> R.drawable.day_snowie
-                7 -> R.drawable.day_foggy
-                8 -> R.drawable.day_cloudly
-
-                else -> R.drawable.day_synny
-            }
-        }
-
     }
 
     private fun getWeatherDescription(id: Int?): String {

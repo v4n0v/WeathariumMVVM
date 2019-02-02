@@ -30,6 +30,8 @@
 
 
         </activity>
+        <activity
+            android:name=".activities.HistoryActivity" />
 
         <activity
             android:name=".activities.SplashActivity"
@@ -40,6 +42,10 @@
             </intent-filter>
 
         </activity>
+        <service
+            android:name=".services.WeatherService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

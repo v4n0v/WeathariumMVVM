@@ -2,6 +2,7 @@ package com.weatharium.v4n0v.weathariummvvm.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class WeatherInfo(
         @SerializedName("coord")
@@ -23,5 +24,7 @@ data class WeatherInfo(
         val sys: Sys,
         val id: Int,
         val name: String,
-        val cod: Int
+        val cod: Int,
+
+        var time: Date?
 )

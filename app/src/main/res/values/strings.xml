@@ -6,9 +6,12 @@
 
     <string name="action_update">Update</string>
     <string name="loading">loading...</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
 
     <string name="select_city">Select name</string>
+    <string name="type_city">Enter the city name, please</string>
 
     <string name="pressure_dim">mm Hg</string>
     <string name="wind_dim">m/s</string>
@@ -49,7 +52,6 @@
     <string name="clear">Clear</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Select name</string>
-    <string name="ok">@android:string/ok</string>
     <string name="update_weather">Update coord</string>
     <string name="email_auth_transition">trans</string>
     <string name="weather">Weather</string>
