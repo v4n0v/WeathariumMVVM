@@ -34,7 +34,7 @@ class ScrollingActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        var isStarted = false
 
         sConn = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -70,8 +70,6 @@ class ScrollingActivity : BaseActivity() {
                 Observer { weatherInfo ->
                     toast("Weather updated")
                     binding.content.infoTemperatureTv.text = temperatureFormat(weatherInfo?.main?.temp)
-                    binding.content.infoTemperatureTv.startAnimation(zoomInAnimation(offset = 200))
-
                     binding.content.infoHumidity.text = weatherInfo?.main?.humidity.toString()
                     binding.content.infoWind.text = weatherInfo?.wind?.speed.toString()
                     binding.content.infoPressure.text = weatherInfo?.main?.pressure.toString()
@@ -79,7 +77,11 @@ class ScrollingActivity : BaseActivity() {
                     val weather = weatherInfo?.weather?.firstOrNull()
                     val drawable = ResourcesCompat.getDrawable(resources, getWeatherIcon(weather?.id), null)
                     binding.content.infoWeatherIco.setImageDrawable(drawable)
-                    binding.content.infoWeatherIco.startAnimation(zoomInAnimation(offset = 200))
+                    if (!isStarted) {
+                        binding.content.infoTemperatureTv.startAnimation(zoomInAnimation(offset = 300))
+                        binding.content.infoWeatherIco.startAnimation(zoomInAnimation(offset = 200))
+                        isStarted = true
+                    }
                     binding.content.infoDescriptionTv.text = getWeatherDescription(weather?.id)
                     binding.content.tvLastUpdate.text = dateFormat().format(Date())
                 })
@@ -87,8 +89,8 @@ class ScrollingActivity : BaseActivity() {
         val onClick = object : OnEditTextListener {
             override fun click(editText: EditText) {
                 val city = editText.text.toString()
-
-                binding.viewModel?.changeCity(city)
+                if (city.isNotEmpty())
+                    binding.viewModel?.changeCity(city)
             }
         }
 

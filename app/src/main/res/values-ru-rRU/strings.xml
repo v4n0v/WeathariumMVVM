@@ -52,7 +52,7 @@
     <string name="city_default">Москва</string>
     <string name="clear">Ясно</string>
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Выбирите город</string>
+    <string name="add_widget">Название города</string>
     <string name="ok">Ok</string>
     <string name="update_weather">Update coord</string>
     <string name="email_auth_transition">trans</string>

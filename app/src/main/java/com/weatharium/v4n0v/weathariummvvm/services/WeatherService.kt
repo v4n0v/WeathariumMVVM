@@ -7,7 +7,6 @@ import android.os.Binder
 import android.os.IBinder
 import com.squareup.otto.Subscribe
 import com.weatharium.v4n0v.weathariummvvm.App
-import com.weatharium.v4n0v.weathariummvvm.components.channels.CityBus
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
 import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
 import timber.log.Timber
@@ -33,14 +32,12 @@ class WeatherService : Service() {
         super.onCreate()
         App.instance.getAppComponent().inject(this)
         WeatherBus.bus.register(this)
-        CityBus.bus.register(this)
         timer = Timer()
         schedule()
     }
 
     override fun onDestroy() {
         WeatherBus.bus.unregister(this)
-        CityBus.bus.unregister(this)
     }
 
 
@@ -56,14 +53,11 @@ class WeatherService : Service() {
             override fun run() {
                 if (city != null) {
                     if (!isComplete) {
-//                        repository.loadCity().subscribe {
                         city?.let {
                             repository.downLoadWeather(it).subscribe { weather ->
                                 WeatherBus.bus.post(weather)
                             }
                         }
-
-//                        }
                     }
                 }
             }

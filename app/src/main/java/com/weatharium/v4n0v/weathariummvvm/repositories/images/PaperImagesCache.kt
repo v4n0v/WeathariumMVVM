@@ -31,11 +31,11 @@ class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App)
 
   //  /storage/emulated/0/Android/data/com.weatharium.v4n0v.weathariummvvm/files/Pictures/63b04a37-1849-394e-b386-4687adcb410a.jpg
     override fun writeToCache(bitmap: Bitmap, city: String) {
-        var imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.toMD5()}.jpg")
+        var imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.UUID()}.jpg")
 
         if (imageFile.exists()) {
             imageFile.delete()
-            imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.toMD5()}.jpg")
+            imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.UUID()}.jpg")
         }
 
         FileOutputStream(imageFile).use {
@@ -56,15 +56,11 @@ class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App)
             e.onComplete()
         }
 
-
-//        return Observable.just(Paper.book(BOOK_IMAGES).read<File?>(city.toLowerCase()))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-
     }
 
 
     override fun loadPictureFromPath(path: File, callback: (Bitmap?) -> Unit) {
+        Glide.get(app).clearMemory()
         Observable.fromCallable {
             Glide.get(app).clearDiskCache()
         }.subscribeOn(Schedulers.io())

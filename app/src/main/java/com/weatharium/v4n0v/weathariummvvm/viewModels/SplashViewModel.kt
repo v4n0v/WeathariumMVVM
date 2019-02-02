@@ -6,9 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import com.squareup.otto.Subscribe
-import com.weatharium.v4n0v.weathariummvvm.components.channels.CityBus
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
-import com.weatharium.v4n0v.weathariummvvm.components.random
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
 import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
 import com.weatharium.v4n0v.weathariummvvm.repositories.images.IImageCacheRepo
@@ -21,7 +19,6 @@ class SplashViewModel : ViewModel() {
     val fabVisibility = ObservableField(false)
 
     init {
-        CityBus.bus.register(this)
         WeatherBus.bus.register(this)
     }
 
@@ -43,12 +40,11 @@ class SplashViewModel : ViewModel() {
         isLoading.set(true)
         repository.loadCity()
                 .subscribe { cityName ->
-                    CityBus.bus.post(cityName)
+                    WeatherBus.bus.post(cityName)
                 }
     }
 
     override fun onCleared() {
-        CityBus.bus.unregister(this)
         WeatherBus.bus.unregister(this)
     }
 

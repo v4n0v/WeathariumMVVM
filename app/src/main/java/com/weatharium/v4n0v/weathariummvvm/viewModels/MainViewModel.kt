@@ -8,7 +8,6 @@ import android.databinding.ObservableField
 import android.graphics.Bitmap
 import com.squareup.otto.Subscribe
 import com.weatharium.v4n0v.weathariummvvm.activities.ClickEvent
-import com.weatharium.v4n0v.weathariummvvm.components.channels.CityBus
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
 import com.weatharium.v4n0v.weathariummvvm.components.random
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
@@ -40,12 +39,12 @@ class MainViewModel : ViewModel() {
 
     init {
         WeatherBus.bus.register(this)
-        CityBus.bus.register(this)
+
     }
 
     override fun onCleared() {
         WeatherBus.bus.unregister(this)
-        CityBus.bus.unregister(this)
+
     }
 
     @SuppressLint("CheckResult")
@@ -79,7 +78,7 @@ class MainViewModel : ViewModel() {
                     repoImages.getPhotosFromFlickr(city ?: "Moscow")
                             .subscribe { photos ->
                                 photos?.let {
-                                    val index = random(0, photos.photos.count - 1)
+                                    val index = random(0, photos.photos.photo.size - 1)
                                     repoImages.downloadPhoto(city
                                             ?: "Moscow", photos.photos.photo[index].urlM) { bmp ->
                                         cityBitmapData.value = bmp
@@ -93,7 +92,7 @@ class MainViewModel : ViewModel() {
     fun changeCity(city:String){
         isPhotoLoaded.set(false)
         repoWeather.saveCity(city)
-        CityBus.bus.post(city)
+        WeatherBus.bus.post(city)
     }
     fun addClickEvent(event: ClickEvent) {
         clickListener.value = Event(event)

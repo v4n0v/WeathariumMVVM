@@ -48,7 +48,8 @@ class HistoryActivity : BaseActivity() {
 
         val historyAdapter = RecyclerAdapter.RecyclerAdapterBuilder<WeatherInfo, ItemLastShownBinding>()
                 .setOnItemSelect { _, binding, _ ->
-                    val padding = (resources.getDimension(R.dimen.std_margin) / resources.displayMetrics.density).toInt()
+
+                    val padding = getDimens(R.dimen.std_margin)
                     when (binding.llDetails.visibility) {
                         View.VISIBLE -> {
                             binding.llDetails.visibility = View.GONE

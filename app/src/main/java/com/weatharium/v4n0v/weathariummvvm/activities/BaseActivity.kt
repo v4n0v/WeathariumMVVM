@@ -91,15 +91,20 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showCancelableEditTextDialog(title: String, message: String, onClickListener: OnEditTextListener) {
         val editText = EditText(this)
-        editText.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        editText.hint = getString(R.string.city_default)
-        val ll = LinearLayout(this)
-        ll.addView(editText)
+        val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT)
         val bilder = AlertDialog.Builder(this)
-                .setView(ll)
                 .setTitle(title)
-                .setMessage(message)
+        val padding = getDimens(R.dimen.margin_25dp)
+        // lp.setMargins(35, 35, 35, 35)
+        val container = LinearLayout(this)
+        editText.gravity = android.view.Gravity.TOP or android.view.Gravity.START
+        container.orientation = LinearLayout.VERTICAL
+        editText.layoutParams = lp
+        editText.hint = getString(R.string.city_default)
+        container.addView(editText)
+        container.setPadding(50, 0, 50, 0)
+        bilder.setView(container)
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.ok)) { _, _ -> }
                 .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
@@ -113,6 +118,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun getDimens(id: Int): Int {
+        return (resources.getDimension(id) / resources.displayMetrics.density).toInt()
+
+    }
 
     fun showCancelableInformDialog(title: String, message: String, onClickListener: DialogInterface.OnClickListener) {
 

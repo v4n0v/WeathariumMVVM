@@ -5,6 +5,3 @@ import com.squareup.otto.Bus
 object WeatherBus {
     val bus = Bus()
 }
-object CityBus {
-    val bus = Bus()
-}
