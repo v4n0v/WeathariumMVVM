@@ -8,7 +8,7 @@ import android.graphics.Bitmap
 import com.squareup.otto.Subscribe
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
 import com.weatharium.v4n0v.weathariummvvm.repositories.images.IImageCacheRepo
 import timber.log.Timber
 import javax.inject.Inject

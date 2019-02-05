@@ -8,7 +8,9 @@ import android.os.IBinder
 import com.squareup.otto.Subscribe
 import com.weatharium.v4n0v.weathariummvvm.App
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
+import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -42,10 +44,8 @@ class WeatherService : Service() {
 
 
     private fun schedule() {
-        if (city != null)
-
-
-            if (tTask != null) tTask!!.cancel()
+        if (city != null && tTask != null)
+            tTask?.cancel()
         // начинаем отсчет до 10минут
         Timber.d("Service weather interval $interval")
         tTask = object : TimerTask() {
@@ -54,16 +54,14 @@ class WeatherService : Service() {
                 if (city != null) {
                     if (!isComplete) {
                         city?.let {
-                            repository.downLoadWeather(it).subscribe { weather ->
-                                WeatherBus.bus.post(weather)
-                            }
+                            repository.downLoadWeather(it).subscribe(getObserver())
                         }
                     }
                 }
             }
         }
 
-        timer!!.schedule(tTask, 0, interval)
+        timer?.schedule(tTask, 0, interval)
     }
 
     inner class WeatherBinder : Binder() {
@@ -76,5 +74,24 @@ class WeatherService : Service() {
         this.city = city
         isComplete = false
         schedule()
+    }
+
+
+    fun getObserver(): DisposableObserver<WeatherInfo> {
+        return object : DisposableObserver<WeatherInfo>() {
+            override fun onComplete() {
+                Timber.d("Complete")
+            }
+
+            override fun onNext(weather: WeatherInfo) {
+                Timber.d("onNext weatherInfo")
+                WeatherBus.bus.post(weather)
+            }
+
+            override fun onError(e: Throwable) {
+                Timber.e(e)
+                e.printStackTrace()
+            }
+        }
     }
 }

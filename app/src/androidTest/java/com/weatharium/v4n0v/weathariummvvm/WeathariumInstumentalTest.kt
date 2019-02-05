@@ -9,7 +9,7 @@ import com.weatharium.v4n0v.weathariummvvm.di.TestComponent
 import com.weatharium.v4n0v.weathariummvvm.di.modules.ApiFactoryModule
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
 import com.weatharium.v4n0v.weathariummvvm.model.images.Photos
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
 import com.weatharium.v4n0v.weathariummvvm.repositories.images.IImageCacheRepo
 import io.reactivex.observers.TestObserver
 import junit.framework.Assert.assertEquals

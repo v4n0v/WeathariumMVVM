@@ -1,4 +1,4 @@
-package com.weatharium.v4n0v.weathariummvvm.repositories
+package com.weatharium.v4n0v.weathariummvvm.repositories.weather
 
 import com.weatharium.v4n0v.weathariummvvm.api.ApiFactory
 import com.weatharium.v4n0v.weathariummvvm.components.*

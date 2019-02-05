@@ -1,8 +1,8 @@
 package com.weatharium.v4n0v.weathariummvvm.di.modules
 
 import com.weatharium.v4n0v.weathariummvvm.api.ApiFactory
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
-import com.weatharium.v4n0v.weathariummvvm.repositories.PaperWeatherRepository
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.PaperWeatherRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

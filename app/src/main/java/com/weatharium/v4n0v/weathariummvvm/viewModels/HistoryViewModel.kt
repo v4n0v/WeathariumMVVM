@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")

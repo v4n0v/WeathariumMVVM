@@ -11,7 +11,7 @@ import com.weatharium.v4n0v.weathariummvvm.activities.ClickEvent
 import com.weatharium.v4n0v.weathariummvvm.components.channels.WeatherBus
 import com.weatharium.v4n0v.weathariummvvm.components.random
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
-import com.weatharium.v4n0v.weathariummvvm.repositories.IWeatherRepo
+import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
 import com.weatharium.v4n0v.weathariummvvm.repositories.images.IImageCacheRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -113,8 +113,6 @@ class MainViewModel : ViewModel() {
             cityBitmapData.value = bmp
             isPhotoLoaded.set(true)
         }
-
-
     }
 
 }
