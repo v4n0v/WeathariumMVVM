@@ -30,7 +30,8 @@ class PaperWeatherRepository(private val apiFactory: ApiFactory) : IWeatherRepo 
 
     override fun loadCity(): Observable<String> {
         return Observable.fromCallable {
-            Paper.book(BOOK_CITY).read(PAGE_CITY, "Moscow")
+            val city =Paper.book(BOOK_CITY).read<String>(PAGE_CITY, "Moscow")
+            formatTitle(city)
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

@@ -96,7 +96,7 @@ class ScrollingActivity : BaseActivity() {
 
         binding.viewModel?.cityNameData?.observe(this, Observer { city ->
             city?.let {
-                binding.tvCityName.text = formatTitle(it)
+                binding.tvCityName.text = it
             }
         })
 

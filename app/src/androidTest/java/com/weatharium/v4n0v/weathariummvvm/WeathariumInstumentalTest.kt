@@ -109,22 +109,36 @@ class WeathariumInstumentalTest {
 
     @Test
     fun weatherRepositoryTest() {
-        val response = createWeatherReponse(WEATHER_TEMP, WEATHER_INFO, WEATHER_CITY)
+
+        // тест загрузки-сохранения города
+        repoWeather.saveCity(WEATHER_CITY)
+
+        val observerCity = TestObserver<String>()
+        repoWeather.loadCity().subscribe(observerCity)
+        observerCity.awaitTerminalEvent()
+        observerCity.assertValueCount(1)
+        val cityName = observerCity.values()[0]
+        assertEquals(WEATHER_CITY, cityName)
+
+
+        // тест загрузки-сохранения погоды
+        val response = createWeatherReponse(WEATHER_TEMP, WEATHER_INFO, cityName)
+
         webServer.enqueue(response)
         val webObserver = TestObserver<WeatherInfo>()
-        repoWeather.downLoadWeather(WEATHER_CITY).subscribe(webObserver)
+        repoWeather.downLoadWeather(cityName).subscribe(webObserver)
         webObserver.awaitTerminalEvent()
         webObserver.assertValueCount(1)
         // проверяем данные с сервера
-        assertEquals(webObserver.values()[0].name, WEATHER_CITY)
+        assertEquals(webObserver.values()[0].name, cityName)
         assertEquals(webObserver.values()[0].weather?.firstOrNull()?.main, WEATHER_INFO)
         assertEquals(webObserver.values()[0].main.temp, WEATHER_TEMP.toDouble())
 
         // кешируем данные в локальную бд
-        repoWeather.saveWeather(WEATHER_CITY, webObserver.values()[0])
+        repoWeather.saveWeather(cityName, webObserver.values()[0])
         // читаем, сохраненные данные из локальной бд
         val observerWeather = TestObserver<WeatherInfo>()
-        repoWeather.loadWeather(WEATHER_CITY).subscribe(observerWeather)
+        repoWeather.loadWeather(cityName).subscribe(observerWeather)
         observerWeather.awaitTerminalEvent()
         observerWeather.assertValueCount(1)
         // сравниваем сохраненное и прочитанное
@@ -137,7 +151,7 @@ class WeathariumInstumentalTest {
         repoWeather.loadWeatherHistory().subscribe(observerHistory)
         observerHistory.awaitTerminalEvent()
         observerHistory.assertValueCount(1)
-        val id1 = observerHistory.values()[0][WEATHER_CITY.toLowerCase()]?.weather?.firstOrNull()?.id
+        val id1 = observerHistory.values()[0][cityName.toLowerCase()]?.weather?.firstOrNull()?.id
         val id2 = observerWeather.values()[0].weather?.firstOrNull()?.id
         assertEquals(id1, id2)
     }
@@ -167,7 +181,6 @@ class WeathariumInstumentalTest {
                 "     ]\n" +
                 "    },\n" +
                 "    \"stat\": \"ok\"" +
-
                 "}"
         return getResponse(json)
     }
