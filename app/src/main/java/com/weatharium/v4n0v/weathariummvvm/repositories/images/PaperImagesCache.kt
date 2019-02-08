@@ -12,8 +12,6 @@ import com.weatharium.v4n0v.weathariummvvm.components.*
 import com.weatharium.v4n0v.weathariummvvm.model.images.Photos
 import io.paperdb.Paper
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -31,11 +29,11 @@ class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App)
 
   //  /storage/emulated/0/Android/data/com.weatharium.v4n0v.weathariummvvm/files/Pictures/63b04a37-1849-394e-b386-4687adcb410a.jpg
     override fun writeToCache(bitmap: Bitmap, city: String) {
-        var imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.UUID()}.jpg")
+        var imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.toUUID()}.jpg")
 
         if (imageFile.exists()) {
             imageFile.delete()
-            imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.UUID()}.jpg")
+            imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.toUUID()}.jpg")
         }
 
         FileOutputStream(imageFile).use {

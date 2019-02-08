@@ -23,7 +23,7 @@ fun String.toMD5(): String? {
 
 
 
-fun String.UUID():String{
+fun String.toUUID():String{
     return UUID.nameUUIDFromBytes(this.toByteArray()).toString()
 }
 

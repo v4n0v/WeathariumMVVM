@@ -3,19 +3,21 @@ package com.weatharium.v4n0v.weathariummvvm
 import android.graphics.Bitmap
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.weatharium.v4n0v.weathariummvvm.components.toMD5
+import com.weatharium.v4n0v.weathariummvvm.components.toUUID
 import com.weatharium.v4n0v.weathariummvvm.di.DaggerTestComponent
 import com.weatharium.v4n0v.weathariummvvm.di.TestComponent
 import com.weatharium.v4n0v.weathariummvvm.di.modules.ApiFactoryModule
+import com.weatharium.v4n0v.weathariummvvm.di.modules.AppModule
 import com.weatharium.v4n0v.weathariummvvm.model.WeatherInfo
 import com.weatharium.v4n0v.weathariummvvm.model.images.Photos
 import com.weatharium.v4n0v.weathariummvvm.repositories.weather.IWeatherRepo
 import com.weatharium.v4n0v.weathariummvvm.repositories.images.IImageCacheRepo
 import io.reactivex.observers.TestObserver
-import junit.framework.Assert.assertEquals
+
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.*
+import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import timber.log.Timber
 import java.io.File
@@ -74,7 +76,9 @@ class WeathariumInstumentalTest {
             }
         }
 
-        val testComponent: TestComponent = DaggerTestComponent.builder().apiFactoryModule(apiModule).build()
+        val testComponent: TestComponent = DaggerTestComponent.builder().apiFactoryModule(apiModule)
+                .appModule(AppModule(App.instance))
+                .build()
         testComponent.inject(this)
     }
 
@@ -88,7 +92,7 @@ class WeathariumInstumentalTest {
         val webObserver = TestObserver<Photos>()
         val response = createImageResponse()
         webServer.enqueue(response)
-        repoImages.getPhotosFromFlickr(WEATHER_CITY)?.subscribe(webObserver)
+        repoImages.getPhotosFromFlickr(WEATHER_CITY).subscribe(webObserver)
         webObserver.awaitTerminalEvent()
         webObserver.assertValueCount(1)
         assertEquals(webObserver.values()[0].photos.photo[0].id,"33816763510")
@@ -100,7 +104,7 @@ class WeathariumInstumentalTest {
 
         val bmpObserver = TestObserver<File?>()
         repoImages.readFromCache(BMP_NAME).subscribe(bmpObserver)
-        assertEquals(bmpObserver.values()[0]?.name, "${BMP_NAME.toMD5()}.jpg")
+        assertEquals(bmpObserver.values()[0]?.name, "${BMP_NAME.toUUID()}.jpg")
     }
 
     @Test
