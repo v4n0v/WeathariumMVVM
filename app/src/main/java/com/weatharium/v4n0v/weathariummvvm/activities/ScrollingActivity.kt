@@ -86,13 +86,6 @@ class ScrollingActivity : BaseActivity() {
                     binding.content.tvLastUpdate.text = dateFormat().format(Date())
                 })
 
-        val onClick = object : OnEditTextListener {
-            override fun click(editText: EditText) {
-                val city = editText.text.toString()
-                if (city.isNotEmpty())
-                    binding.viewModel?.changeCity(city)
-            }
-        }
 
         binding.viewModel?.cityNameData?.observe(this, Observer { city ->
             city?.let {
@@ -104,7 +97,11 @@ class ScrollingActivity : BaseActivity() {
                 Observer { event ->
                     event?.getContentIfNotHandled()?.let { actionId ->
                         when (actionId) {
-                            ClickEvent.FAB -> showCancelableEditTextDialog(getString(R.string.select_city), getString(R.string.type_city), onClick)
+                            ClickEvent.FAB -> showCancelableEditTextDialog(getString(R.string.select_city), getString(R.string.type_city)){editText->
+                                val city = editText.text.toString()
+                                if (city.isNotEmpty())
+                                    binding.viewModel?.changeCity(city)
+                            }
                             ClickEvent.HISTORY -> {
                                 Timber.d("HistoryActivity selected")
                                 val intentHistory = Intent(this, HistoryActivity::class.java)

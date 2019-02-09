@@ -89,7 +89,7 @@ abstract class BaseActivity : AppCompatActivity() {
         fun click(editText: EditText)
     }
 
-    fun showCancelableEditTextDialog(title: String, message: String, onClickListener: OnEditTextListener) {
+    fun showCancelableEditTextDialog(title: String, message: String, onClickListener:(et: EditText) ->Unit ) {
         val editText = EditText(this)
         val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -113,7 +113,7 @@ abstract class BaseActivity : AppCompatActivity() {
         dialog.show()
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            onClickListener.click(editText)
+            onClickListener(editText)
             dialog.dismiss()
         }
     }
