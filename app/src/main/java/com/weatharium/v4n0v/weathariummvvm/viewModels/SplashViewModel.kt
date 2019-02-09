@@ -40,7 +40,7 @@ class SplashViewModel : ViewModel() {
         isLoading.set(true)
         repository.loadCity()
                 .subscribe { cityName ->
-                    WeatherBus.bus.post(cityName)
+                    WeatherBus.bus.post("Moscow")
                 }
     }
 

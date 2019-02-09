@@ -69,7 +69,7 @@ class HistoryActivity : BaseActivity() {
                         adapterBinding.lastPressure.text = it.main.pressure.toString()
                         adapterBinding.lastWind.text = it.wind.speed.toString()
                         adapterBinding.lastCity.text = it.name
-                        adapterBinding.lastTemp.text = temperatureFormat(it.main.temp)+ getString(R.string.cels)
+                        adapterBinding.lastTemp.text = temperatureFormat(it.main.temp)
                         adapterBinding.lastTime.text = dateFormat().format(it.time)
                         adapterBinding.lastDescription.text = it.weather?.get(0)?.main
                         val drawable = ResourcesCompat.getDrawable(resources, getWeatherIcon(it.id), null)
