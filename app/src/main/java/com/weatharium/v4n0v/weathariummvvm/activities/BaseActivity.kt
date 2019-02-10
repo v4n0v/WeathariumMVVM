@@ -1,5 +1,6 @@
 package com.weatharium.v4n0v.weathariummvvm.activities
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -63,8 +64,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("LogNotTimber")
     fun log(msg: String) {
-        Log.d(this.javaClass.simpleName, msg)
+        Log.d(this.javaClass.simpleName+" LOG", msg)
     }
 
     fun toast(msg: String) {
@@ -75,12 +77,16 @@ abstract class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
 
-    fun showInformDialog(title: String, message: String, onClickListener: DialogInterface.OnClickListener) {
+    fun showInformDialog(title: String, message: String, call: (() -> Unit)?) {
         AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton("ОК", onClickListener)
+                .setPositiveButton("ОК") { _, _ ->
+                    call?.let{
+                        it.invoke()
+                    }
+                }
                 .create()
                 .show()
     }

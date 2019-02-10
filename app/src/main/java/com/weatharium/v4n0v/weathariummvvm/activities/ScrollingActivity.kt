@@ -86,7 +86,14 @@ class ScrollingActivity : BaseActivity() {
                     binding.content.tvLastUpdate.text = dateFormat().format(Date())
                 })
 
-
+        binding.viewModel?.errorData?.observe(this,
+                Observer {
+                    Timber.e(it)
+                    showInformDialog("Ошибка", it?.message.toString()){
+                        finish()
+                    }
+                })
+        
         binding.viewModel?.cityNameData?.observe(this, Observer { city ->
             city?.let {
                 binding.tvCityName.text = it

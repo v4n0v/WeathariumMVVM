@@ -54,7 +54,7 @@ class WeatherService : Service() {
                 if (city != null) {
                     if (!isComplete) {
                         city?.let {
-                            repository.downLoadWeather(it).subscribe(getObserver())
+                            repository.downLoadWeather(it).subscribe(o)
                         }
                     }
                 }
@@ -77,8 +77,8 @@ class WeatherService : Service() {
     }
 
 
-    fun getObserver(): DisposableObserver<WeatherInfo> {
-        return object : DisposableObserver<WeatherInfo>() {
+    val o: DisposableObserver<WeatherInfo>
+        get() = object : DisposableObserver<WeatherInfo>() {
             override fun onComplete() {
                 Timber.d("Complete")
             }
@@ -89,9 +89,8 @@ class WeatherService : Service() {
             }
 
             override fun onError(e: Throwable) {
-                Timber.e(e)
-                e.printStackTrace()
+                WeatherBus.bus.post(e)
             }
         }
-    }
+
 }

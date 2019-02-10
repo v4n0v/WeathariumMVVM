@@ -16,7 +16,6 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class SplashViewModel : ViewModel() {
     val isLoading = ObservableField(true)
-    val fabVisibility = ObservableField(false)
 
     init {
         WeatherBus.bus.register(this)
@@ -25,22 +24,19 @@ class SplashViewModel : ViewModel() {
     @Inject
     lateinit var repository: IWeatherRepo
 
-
-    val isSplashCompleteData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
-    val cityBitmapData: MutableLiveData<Bitmap> by lazy { MutableLiveData<Bitmap>() }
-
-    val isPhotoLoaded = ObservableField(true)
+    val cityNameData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val errorData: MutableLiveData<Throwable> by lazy { MutableLiveData<Throwable>() }
 
     @Inject
     lateinit var imageRepository: IImageCacheRepo
-    var city: String? = null
+
 
 
     fun loadCityName() {
         isLoading.set(true)
         repository.loadCity()
                 .subscribe { cityName ->
-                    WeatherBus.bus.post("Moscow")
+                    WeatherBus.bus.post(cityName)
                 }
     }
 
@@ -60,14 +56,20 @@ class SplashViewModel : ViewModel() {
                         imageRepository.loadPicture(weather.name) { bmp ->
                             repository.saveCity(weather.name)
                             repository.saveWeather(weather.name, weather)
-                            city = weather.name
-                            cityBitmapData.value = bmp
+                            cityNameData.value=weather.name
+
                             isLoading.set(false)
-                            isSplashCompleteData.value = true
-                            fabVisibility.set(true)
+
                         }
                     }
                 }
+    }
+
+
+
+    @Subscribe
+    fun onErrorRecieve(error: Throwable) {
+        errorData.value = error
     }
 }
 

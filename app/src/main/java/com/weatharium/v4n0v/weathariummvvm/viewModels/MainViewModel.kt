@@ -22,6 +22,7 @@ class MainViewModel : ViewModel() {
     val fabVisibility = ObservableField(false)
     val isPhotoLoaded = ObservableField(true)
 
+    val errorData: MutableLiveData<Throwable> by lazy { MutableLiveData<Throwable>() }
     val cityNameData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val cityBitmapData: MutableLiveData<Bitmap> by lazy { MutableLiveData<Bitmap>() }
     val weatherInfoData: MutableLiveData<WeatherInfo> by lazy { MutableLiveData<WeatherInfo>() }
@@ -57,7 +58,7 @@ class MainViewModel : ViewModel() {
                     repoWeather.loadWeather(city).subscribe { weatherInfo ->
                         weatherInfoData.value = weatherInfo
                         fabVisibility.set(true)
-                        repoImages.readFromCache(city).subscribe {file->
+                        repoImages.readFromCache(city).subscribe { file ->
                             file?.let {
                                 repoImages.loadPictureFromPath(it) { bmp ->
                                     cityBitmapData.value = bmp
@@ -89,11 +90,12 @@ class MainViewModel : ViewModel() {
                 }
     }
 
-    fun changeCity(city:String){
+    fun changeCity(city: String) {
         isPhotoLoaded.set(false)
         repoWeather.saveCity(city)
         WeatherBus.bus.post(city)
     }
+
     fun addClickEvent(event: ClickEvent) {
         clickListener.value = Event(event)
     }
@@ -106,7 +108,7 @@ class MainViewModel : ViewModel() {
     @Subscribe
     fun onRecieve(weatherInfo: WeatherInfo) {
         repoWeather.saveWeather(weatherInfo.name, weatherInfo)
-        repoImages.loadPicture(weatherInfo.name){bmp->
+        repoImages.loadPicture(weatherInfo.name) { bmp ->
             weatherInfoData.value = weatherInfo
             cityNameData.value = weatherInfo.name
 
@@ -114,5 +116,13 @@ class MainViewModel : ViewModel() {
             isPhotoLoaded.set(true)
         }
     }
+
+    @Subscribe
+    fun onErrorRecieve(error: Throwable) {
+        errorData.value = error
+
+    }
+
+
 
 }

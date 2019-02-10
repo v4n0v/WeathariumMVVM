@@ -69,5 +69,6 @@ fun getWeatherIcon(id: Int?): Int {
             else -> R.drawable.day_synny
         }
     }
-
 }
+
+

@@ -51,12 +51,20 @@ class SplashActivity : BaseActivity() {
         binding.viewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
         App.instance.getAppComponent().inject(binding.viewModel!!)
 
-        binding.viewModel?.isSplashCompleteData?.observe(this,
-                Observer<Boolean> {
+        binding.viewModel?.cityNameData?.observe(this,
+                Observer<String> {
                     val intent = Intent(this, ScrollingActivity::class.java)
-                    intent.putExtra(CITY, binding.viewModel?.city)
+                    intent.putExtra(CITY, it)
                     startActivity(intent)
                     finish()
+                })
+
+        binding.viewModel?.errorData?.observe(this,
+                Observer {
+                    //Timber.e(it)
+                    showInformDialog("Ошибка", it?.message.toString()){
+                        finish()
+                    }
                 })
 
         binding.executePendingBindings()
