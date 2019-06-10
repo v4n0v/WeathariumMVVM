@@ -20,6 +20,19 @@ import java.io.FileOutputStream
 
 @SuppressLint("CheckResult")
 class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App) : IImageCacheRepo {
+    override fun downloadPhoto(name: String, link: String): Observable<Bitmap> {
+        return Observable.create {
+            Glide.with(app).asBitmap()
+                    .load(link)
+                    .listener(object : OnRequestComplete<Bitmap>() {
+                        override fun onRequestDataReady(resource: Bitmap?) {
+                            if (resource != null)
+                                it.onNext(resource)
+                        }
+                    })
+                    .preload()
+        }
+    }
 
     override fun getPhotosFromFlickr(city: String): Observable<Photos?> {
         return apiFactory.getImageApi().getImage("$city+$FLIKR_REQUEST_IMAGE_KEY")
@@ -27,7 +40,7 @@ class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App)
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-  //  /storage/emulated/0/Android/data/com.weatharium.v4n0v.weathariummvvm/files/Pictures/63b04a37-1849-394e-b386-4687adcb410a.jpg
+    //  /storage/emulated/0/Android/data/com.weatharium.v4n0v.weathariummvvm/files/Pictures/63b04a37-1849-394e-b386-4687adcb410a.jpg
     override fun writeToCache(bitmap: Bitmap, city: String) {
         var imageFile = File(App.instance.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${city.toUUID()}.jpg")
 
@@ -95,16 +108,16 @@ class PaperImagesCache(private val apiFactory: ApiFactory, private val app: App)
         }
     }
 
-    override fun downloadPhoto(name: String, link: String, callback: (Bitmap?) -> Unit) {
-        Glide.with(app).asBitmap()
-                .load(link)
-                .listener(object : OnRequestComplete<Bitmap>() {
-                    override fun onRequestDataReady(resource: Bitmap?) {
-                        writeToCache(resource!!, name.toLowerCase())
-                        callback(resource)
-                    }
-                })
-                .preload()
-    }
+//    override fun downloadPhoto(name: String, link: String, callback: (Bitmap?) -> Unit) {
+//        Glide.with(app).asBitmap()
+//                .load(link)
+//                .listener(object : OnRequestComplete<Bitmap>() {
+//                    override fun onRequestDataReady(resource: Bitmap?) {
+//                        writeToCache(resource!!, name.toLowerCase())
+//                        callback(resource)
+//                    }
+//                })
+//                .preload()
+//    }
 
 }

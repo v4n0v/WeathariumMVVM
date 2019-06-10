@@ -15,7 +15,7 @@ interface IImageCacheRepo {
       fun getPhotosFromFlickr(city: String):  Observable<Photos?>
 
       fun loadPicture(name: String, callback: (Bitmap?) -> Unit)
-      fun downloadPhoto(name: String, link: String, callback: (Bitmap?) -> Unit)
+      fun downloadPhoto(name: String, link: String) :Observable<Bitmap>
       fun loadPictureFromPath(path: File, callback: (Bitmap?) -> Unit)
 }
 
